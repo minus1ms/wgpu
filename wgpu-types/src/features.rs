@@ -53,6 +53,9 @@ mod webgpu_impl {
 
     #[doc(hidden)]
     pub const WEBGPU_FEATURE_FLOAT32_FILTERABLE: u64 = 1 << 11;
+
+    #[doc(hidden)]
+    pub const WEBGPU_FEATURE_DUAL_SOURCE_BLENDING: u64 = 1 << 12;
 }
 
 macro_rules! bitflags_array_impl {
@@ -1044,17 +1047,6 @@ bitflags_array! {
         ///
         /// This is a native only feature.
         const SHADER_EARLY_DEPTH_TEST = 1 << 34;
-        /// Allows two outputs from a shader to be used for blending.
-        /// Note that dual-source blending doesn't support multiple render targets.
-        ///
-        /// For more info see the OpenGL ES extension GL_EXT_blend_func_extended.
-        ///
-        /// Supported platforms:
-        /// - OpenGL ES (with GL_EXT_blend_func_extended)
-        /// - Metal (with MSL 1.2+)
-        /// - Vulkan (with dualSrcBlend)
-        /// - DX12
-        const DUAL_SOURCE_BLENDING = 1 << 35;
         /// Allows shaders to use i64 and u64.
         ///
         /// Supported platforms:
@@ -1063,7 +1055,7 @@ bitflags_array! {
         /// - Metal (with MSL 2.3+)
         ///
         /// This is a native only feature.
-        const SHADER_INT64 = 1 << 36;
+        const SHADER_INT64 = 1 << 35;
         /// Allows compute and fragment shaders to use the subgroup operation built-ins
         ///
         /// Supported Platforms:
@@ -1072,14 +1064,14 @@ bitflags_array! {
         /// - Metal
         ///
         /// This is a native only feature.
-        const SUBGROUP = 1 << 37;
+        const SUBGROUP = 1 << 36;
         /// Allows vertex shaders to use the subgroup operation built-ins
         ///
         /// Supported Platforms:
         /// - Vulkan
         ///
         /// This is a native only feature.
-        const SUBGROUP_VERTEX = 1 << 38;
+        const SUBGROUP_VERTEX = 1 << 37;
         /// Allows shaders to use the subgroup barrier
         ///
         /// Supported Platforms:
@@ -1087,7 +1079,7 @@ bitflags_array! {
         /// - Metal
         ///
         /// This is a native only feature.
-        const SUBGROUP_BARRIER = 1 << 39;
+        const SUBGROUP_BARRIER = 1 << 38;
         /// Allows the use of pipeline cache objects
         ///
         /// Supported platforms:
@@ -1096,7 +1088,7 @@ bitflags_array! {
         /// Unimplemented Platforms:
         /// - DX12
         /// - Metal
-        const PIPELINE_CACHE = 1 << 40;
+        const PIPELINE_CACHE = 1 << 39;
         /// Allows shaders to use i64 and u64 atomic min and max.
         ///
         /// Supported platforms:
@@ -1105,7 +1097,7 @@ bitflags_array! {
         /// - Metal (with MSL 2.4+)
         ///
         /// This is a native only feature.
-        const SHADER_INT64_ATOMIC_MIN_MAX = 1 << 41;
+        const SHADER_INT64_ATOMIC_MIN_MAX = 1 << 40;
         /// Allows shaders to use all i64 and u64 atomic operations.
         ///
         /// Supported platforms:
@@ -1113,7 +1105,7 @@ bitflags_array! {
         /// - DX12 (with SM 6.6+)
         ///
         /// This is a native only feature.
-        const SHADER_INT64_ATOMIC_ALL_OPS = 1 << 42;
+        const SHADER_INT64_ATOMIC_ALL_OPS = 1 << 41;
         /// Allows using the [VK_GOOGLE_display_timing] Vulkan extension.
         ///
         /// This is used for frame pacing to reduce latency, and is generally only available on Android.
@@ -1129,7 +1121,7 @@ bitflags_array! {
         ///
         /// [VK_GOOGLE_display_timing]: https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VK_GOOGLE_display_timing.html
         /// [`Surface::as_hal()`]: https://docs.rs/wgpu/latest/wgpu/struct.Surface.html#method.as_hal
-        const VULKAN_GOOGLE_DISPLAY_TIMING = 1 << 43;
+        const VULKAN_GOOGLE_DISPLAY_TIMING = 1 << 42;
 
         /// Allows using the [VK_KHR_external_memory_win32] Vulkan extension.
         ///
@@ -1139,7 +1131,7 @@ bitflags_array! {
         /// This is a native only feature.
         ///
         /// [VK_KHR_external_memory_win32]: https://registry.khronos.org/vulkan/specs/latest/man/html/VK_KHR_external_memory_win32.html
-        const VULKAN_EXTERNAL_MEMORY_WIN32 = 1 << 44;
+        const VULKAN_EXTERNAL_MEMORY_WIN32 = 1 << 43;
 
         /// Enables R64Uint image atomic min and max.
         ///
@@ -1149,7 +1141,7 @@ bitflags_array! {
         /// - Metal (with MSL 3.1+)
         ///
         /// This is a native only feature.
-        const TEXTURE_INT64_ATOMIC = 1 << 45;
+        const TEXTURE_INT64_ATOMIC = 1 << 44;
 
     }
 
@@ -1355,6 +1347,18 @@ bitflags_array! {
         ///
         /// This is a web and native feature.
         const FLOAT32_FILTERABLE = WEBGPU_FEATURE_FLOAT32_FILTERABLE;
+
+        /// Allows two outputs from a shader to be used for blending.
+        /// Note that dual-source blending doesn't support multiple render targets.
+        ///
+        /// For more info see the OpenGL ES extension GL_EXT_blend_func_extended.
+        ///
+        /// Supported platforms:
+        /// - OpenGL ES (with GL_EXT_blend_func_extended)
+        /// - Metal (with MSL 1.2+)
+        /// - Vulkan (with dualSrcBlend)
+        /// - DX12
+        const DUAL_SOURCE_BLENDING = WEBGPU_FEATURE_DUAL_SOURCE_BLENDING;
     }
 }
 

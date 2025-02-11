@@ -489,15 +489,10 @@ fn map_blend_factor(factor: wgt::BlendFactor) -> webgpu_sys::GpuBlendFactor {
         BlendFactor::SrcAlphaSaturated => bf::SrcAlphaSaturated,
         BlendFactor::Constant => bf::Constant,
         BlendFactor::OneMinusConstant => bf::OneMinusConstant,
-        BlendFactor::Src1
-        | BlendFactor::OneMinusSrc1
-        | BlendFactor::Src1Alpha
-        | BlendFactor::OneMinusSrc1Alpha => {
-            panic!(
-                "{:?} is not enabled for this backend",
-                wgt::Features::DUAL_SOURCE_BLENDING
-            )
-        }
+        BlendFactor::Src1 => bf::Src1,
+        BlendFactor::OneMinusSrc1 => bf::OneMinusSrc1,
+        BlendFactor::Src1Alpha => bf::Src1Alpha,
+        BlendFactor::OneMinusSrc1Alpha => bf::OneMinusSrc1Alpha,
     }
 }
 
@@ -730,7 +725,7 @@ fn map_map_mode(mode: crate::MapMode) -> u32 {
     }
 }
 
-const FEATURES_MAPPING: [(wgt::Features, webgpu_sys::GpuFeatureName); 12] = [
+const FEATURES_MAPPING: [(wgt::Features, webgpu_sys::GpuFeatureName); 13] = [
     //TODO: update the name
     (
         wgt::Features::DEPTH_CLIP_CONTROL,
@@ -779,6 +774,10 @@ const FEATURES_MAPPING: [(wgt::Features, webgpu_sys::GpuFeatureName); 12] = [
     (
         wgt::Features::FLOAT32_FILTERABLE,
         webgpu_sys::GpuFeatureName::Float32Filterable,
+    ),
+    (
+        wgt::Features::DUAL_SOURCE_BLENDING,
+        webgpu_sys::GpuFeatureName::DualSourceBlending,
     ),
 ];
 
