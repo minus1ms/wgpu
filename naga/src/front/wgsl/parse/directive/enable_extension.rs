@@ -17,7 +17,6 @@ impl EnableExtensions {
     }
 
     /// Add an enable-extension to the set requested by a module.
-    #[expect(unreachable_code)]
     pub(crate) fn add(&mut self, ext: ImplementedEnableExtension) {
         let field: &mut bool = match ext {
             ImplementedEnableExtension::DualSourceBlending => &mut self.dual_source_blending,
@@ -26,7 +25,7 @@ impl EnableExtensions {
     }
 
     /// Query whether an enable-extension tracked here has been requested.
-    #[expect(unused)]
+    #[allow(unused)]
     pub(crate) const fn contains(&self, ext: ImplementedEnableExtension) -> bool {
         match ext {
             ImplementedEnableExtension::DualSourceBlending => self.dual_source_blending,
