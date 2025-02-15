@@ -118,6 +118,9 @@ impl<W: Write> Writer<W> {
 
         self.reset(module);
 
+        // Write all needed directives.
+        self.write_directives(module)?;
+
         // Save all ep result types
         for ep in &module.entry_points {
             if let Some(ref result) = ep.function.result {
@@ -387,6 +390,32 @@ impl<W: Write> Writer<W> {
                 }
             };
         }
+        Ok(())
+    }
+
+    /// Writes all the necessary directives out
+    fn write_directives(&mut self, module: &Module) -> BackendResult {
+        // Check for dual source blending.
+        if module.types.iter().any(|(_handle, ty)| {
+            if let TypeInner::Struct { ref members, .. } = ty.inner {
+                members.iter().any(|member| {
+                    member.binding.as_ref().map_or(false, |binding| {
+                        matches!(
+                            binding,
+                            &crate::Binding::Location {
+                                blend_src: Some(_),
+                                ..
+                            }
+                        )
+                    })
+                })
+            } else {
+                false
+            }
+        }) {
+            writeln!(self.out, "enable dual_source_blending;")?;
+        }
+
         Ok(())
     }
 

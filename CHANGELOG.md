@@ -143,8 +143,13 @@ struct FragmentOutput{
 }
 
 ```
-
 With that `wgpu::Features::DUAL_SOURCE_BLENDING` is now available on WebGPU.
+
+Furthermore, GLSL shaders now support dual source blending as well via the `index` layout qualifier:
+```c
+layout(location = 0, index = 0) out vec4 output0;
+layout(location = 0, index = 1) out vec4 output1;
+```
 
 By @wumpf in [#7144](https://github.com/gfx-rs/wgpu/pull/7144)
 
