@@ -1345,19 +1345,23 @@ fn invalid_blend_src() {
     }
 
     // Missing enable directive.
-    // TODO:
-    // check_validation! {
-    //     "
-    //     struct FragmentOutput {
-    //         @location(0) @blend_src(0) output0: vec4<f32>,
-    //         @location(0) @blend_src(1) output1: vec4<f32>,
-    //     }
-    //     @fragment
-    //     fn main(@builtin(position) position: vec4<f32>) -> FragmentOutput { return FragmentOutput(vec4(0.0), vec4(0.0)); }
-    //     ":
-    //     Err(???),
-    //     Capabilities::DUAL_SOURCE_BLENDING
-    // }
+    // Note that this is a parsing error, not a validation error.
+    check("
+        struct FragmentOutput {
+            @location(0) @blend_src(0) output0: vec4<f32>,
+            @location(0) @blend_src(1) output1: vec4<f32>,
+        }
+        @fragment
+        fn main(@builtin(position) position: vec4<f32>) -> FragmentOutput { return FragmentOutput(vec4(0.0), vec4(0.0)); }
+        ",
+        r###"error: `dual_source_blending` enable-extension is not enabled
+  ┌─ wgsl:3:27
+  │
+3 │             @location(0) @blend_src(0) output0: vec4<f32>,
+  │                           ^^^^^^^^^ the `dual_source_blending` enable-extension is needed for this functionality, but it is not currently enabled
+
+"###,
+    );
 
     // Using blend_src on an input.
     check_validation! {

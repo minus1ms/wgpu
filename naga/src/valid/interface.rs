@@ -319,7 +319,6 @@ impl VaryingContext<'_> {
                 if let Some(blend_src) = blend_src {
                     // `blend_src` is only valid if dual source blending was explicitly enabled,
                     // see https://www.w3.org/TR/WGSL/#extension-dual_source_blending
-                    // TODO: check that dual source blending feature was enabled in the shader.
                     if !self
                         .capabilities
                         .contains(Capabilities::DUAL_SOURCE_BLENDING)

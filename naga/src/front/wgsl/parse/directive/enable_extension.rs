@@ -25,7 +25,6 @@ impl EnableExtensions {
     }
 
     /// Query whether an enable-extension tracked here has been requested.
-    #[allow(unused)]
     pub(crate) const fn contains(&self, ext: ImplementedEnableExtension) -> bool {
         match ext {
             ImplementedEnableExtension::DualSourceBlending => self.dual_source_blending,
@@ -47,6 +46,12 @@ pub enum EnableExtension {
     #[allow(unused)]
     Implemented(ImplementedEnableExtension),
     Unimplemented(UnimplementedEnableExtension),
+}
+
+impl From<ImplementedEnableExtension> for EnableExtension {
+    fn from(value: ImplementedEnableExtension) -> Self {
+        Self::Implemented(value)
+    }
 }
 
 impl EnableExtension {

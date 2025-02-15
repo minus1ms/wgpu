@@ -1,3 +1,5 @@
+use directive::enable_extension::ImplementedEnableExtension;
+
 use crate::diagnostic_filter::{
     self, DiagnosticFilter, DiagnosticFilterMap, DiagnosticFilterNode, FilterableTriggeringRule,
     ShouldConflictOnFullDuplicate, StandardFilterableTriggeringRule,
@@ -221,6 +223,16 @@ impl<'a> BindingParser<'a> {
                 self.invariant.set(true, name_span)?;
             }
             "blend_src" => {
+                if !lexer
+                    .enable_extensions
+                    .contains(ImplementedEnableExtension::DualSourceBlending)
+                {
+                    return Err(Error::EnableExtensionNotEnabled {
+                        span: name_span,
+                        kind: ImplementedEnableExtension::DualSourceBlending.into(),
+                    });
+                }
+
                 lexer.expect(Token::Paren('('))?;
                 self.blend_src
                     .set(parser.general_expression(lexer, ctx)?, name_span)?;
