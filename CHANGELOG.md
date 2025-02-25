@@ -117,9 +117,9 @@ pub enum PollError {
 By @cwfitzgerald in [#6942](https://github.com/gfx-rs/wgpu/pull/6942).  
 By @cwfitzgerald in [#7030](https://github.com/gfx-rs/wgpu/pull/7030).
 
-### New Features
+#New Features
 
-#### General
+##General
 
 - It is now possible to create a dummy `wgpu` device even when no GPU is available. This may be useful for testing of code which manages graphics resources. Currently, it supports reading and writing buffers, and other resource types can be created but do nothing.
 
@@ -134,16 +134,16 @@ By @cwfitzgerald in [#7030](https://github.com/gfx-rs/wgpu/pull/7030).
 - Add `util::StagingBelt::allocate()` so the staging belt can be used to write textures. By @kpreid in [#6900](https://github.com/gfx-rs/wgpu/pull/6900).
 - Added `CommandEncoder::transition_resources()` for native API interop, and allowing users to slightly optimize barriers. By @JMS55 in [#6678](https://github.com/gfx-rs/wgpu/pull/6678).
 
-#### Naga
+##Naga
 
 - Add support for unsigned types when calling textureLoad with the level parameter. By @ygdrasil-io in [#7058](https://github.com/gfx-rs/wgpu/pull/7058).
 - Support @must_use attribute on function declarations. By @turbocrime in [#6801](https://github.com/gfx-rs/wgpu/pull/6801).
 - Support for generating the candidate intersections from AABB geometry, and confirming the hits. By @kvark in [#7047](https://github.com/gfx-rs/wgpu/pull/7047).
 - Make naga::back::spv::Function::to_words write the OpFunctionEnd instruction in itself, instead of making another call after it. By @junjunjd in [#7156](https://github.com/gfx-rs/wgpu/pull/7156).
 
-### Changes
+#Changes
 
-#### General
+##General
 
 - Support BLAS compaction in wgpu-hal. By @Vecvec in [#7101](https://github.com/gfx-rs/wgpu/pull/7101).
 - Avoid using default features in many dependencies, etc. By Brody in [#7031](https://github.com/gfx-rs/wgpu/pull/7031)
@@ -152,7 +152,7 @@ By @cwfitzgerald in [#7030](https://github.com/gfx-rs/wgpu/pull/7030).
 - Rename `instance_id` and `instance_custom_index` to `instance_index` and `instance_custom_data` by @Vecvec in
   [#6780](https://github.com/gfx-rs/wgpu/pull/6780)
 
-##### Split up `Features` internally
+###Split up `Features` internally
 
 Internally split up the `Features` struct and recombine them internally using a macro. There should be no breaking
 changes from this. This means there are also namespaces (as well as the old `Features::*`) for all wgpu specific
@@ -161,27 +161,27 @@ allow you to be explicit about whether features you need are available on the we
 
 By @Vecvec in [#6905](https://github.com/gfx-rs/wgpu/pull/6905), [#7086](https://github.com/gfx-rs/wgpu/pull/7086)
 
-##### Refactored internal trace path parameter
+###Refactored internal trace path parameter
 
 Refactored some functions to handle the internal trace path as a string to avoid possible issues with `no_std` support.
 
 By @brodycj in [#6924](https://github.com/gfx-rs/wgpu/pull/6924).
 
-#### Vulkan
+##Vulkan
 
-##### HAL queue callback support
+###HAL queue callback support
 
 - Add a way to notify with `Queue::submit()` to Vulkan's `vk::Semaphore` allocated outside of wgpu. By @sotaroikeda in [#6813](https://github.com/gfx-rs/wgpu/pull/6813).
 
-### Bug Fixes
+#Bug Fixes
 
-#### Naga
+##Naga
 
 - Fix some instances of functions which have a return type but don't return a value being incorrectly validated. By @jamienicol in [#7013](https://github.com/gfx-rs/wgpu/pull/7013).
 - Allow abstract expressions to be used in WGSL function return statements. By @jamienicol in [#7035](https://github.com/gfx-rs/wgpu/pull/7035).
 - Error if structs have two fields with the same name. By @SparkyPotato in [#7088](https://github.com/gfx-rs/wgpu/pull/7088).
 
-#### General
+##General
 
 - Avoid overflow in query set bounds check validation. By @ErichDonGubler in [#6933](https://github.com/gfx-rs/wgpu/pull/6933).
 - Add Flush to GL Queue::submit. By @cwfitzgerald in [#6941](https://github.com/gfx-rs/wgpu/pull/6941).
@@ -193,46 +193,46 @@ By @brodycj in [#6924](https://github.com/gfx-rs/wgpu/pull/6924).
 - Fix building a BLAS with a transform buffer by adding a flag to indicate usage of the transform buffer. By @Vecvec in
 [#7062](https://github.com/gfx-rs/wgpu/pull/7062).
 
-#### Vulkan
+##Vulkan
 
 - Stop naga causing undefined behavior when a ray query misses. By @Vecvec in [#6752](https://github.com/gfx-rs/wgpu/pull/6752).
 
-#### Metal
+##Metal
 
 - Use resize observers for smoother resizing. By @madsmtm in [#7026](https://github.com/gfx-rs/wgpu/pull/7026).
 
-#### Gles
+##Gles
 
 - Support OpenHarmony render with `gles`. By @richerfu in [#7085](https://github.com/gfx-rs/wgpu/pull/7085)
 
-#### Dx12
+##Dx12
 
 - Fix HLSL storage format generation. By @Vecvec in [#6993](https://github.com/gfx-rs/wgpu/pull/6993) and [#7104](https://github.com/gfx-rs/wgpu/pull/7104)
 - Fix 3D storage texture bindings. By @SparkyPotato in [#7071](https://github.com/gfx-rs/wgpu/pull/7071)
 - Fix DX12 composite alpha modes. By @amrbashir in [#7117](https://github.com/gfx-rs/wgpu/pull/7117)
 
-#### WebGPU
+##WebGPU
 
 - Improve efficiency of dropping read-only buffer mappings. By @kpreid in [#7007](https://github.com/gfx-rs/wgpu/pull/7007).
 
-### Performance
+#Performance
 
-#### Naga
+##Naga
 
 - Replace `unicode-xid` with `unicode-ident`. By @CrazyboyQCD in [#7135](https://github.com/gfx-rs/wgpu/pull/7135)
 
-### Documentation
+#Documentation
 
 - Improved documentation around pipeline caches and `TextureBlitter`. By @DJMcNab in [#6978](https://github.com/gfx-rs/wgpu/pull/6978) and [#7003](https://github.com/gfx-rs/wgpu/pull/7003).
 - Improved documentation of `PresentMode`. By @kpreid in [#7211](https://github.com/gfx-rs/wgpu/pull/7211).
 
 - Added a hello window example. By @laycookie in [#6992](https://github.com/gfx-rs/wgpu/pull/6992).
 
-### Examples
+#Examples
 
 - Call `pre_present_notify()` before presenting. By @kjarosh in [#7074](https://github.com/gfx-rs/wgpu/pull/7074).
 
-## v24.0.0 (2025-01-15)
+v24.0.0 (2025-01-15)
 
 ### Major changes
 
@@ -521,6 +521,10 @@ By @ErichDonGubler in [#6456](https://github.com/gfx-rs/wgpu/pull/6456), [#6148]
 
 - Fix no longer showing software rasterizer adapters. By @wumpf in [#6843](https://github.com/gfx-rs/wgpu/pull/6843).
 - `max_color_attachment_bytes_per_sample` is now correctly set to 128. By @cwfitzgerald in [#6866](https://github.com/gfx-rs/wgpu/pull/6866)
+
+#### HAL
+
+- Decrement max_storage_buffer_binding_size by 1 to match max_buffer_size. By @minus1ms in [#7217](https://github.com/gfx-rs/wgpu/pull/7217)
 
 ### Examples
 
